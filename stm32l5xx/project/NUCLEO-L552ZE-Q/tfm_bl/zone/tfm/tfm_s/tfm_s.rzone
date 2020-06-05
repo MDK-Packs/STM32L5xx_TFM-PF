@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<rzone xmlns:xs="http://www.w3.org/2001/XMLSchema-instance" xs:noNamespaceSchemaLocation="rzone.xsd">
+  <creator azone="../tfm.azone" info="" rzone="../tfm.rzone" security="s" tool="CMSIS Zone PlugIn for Eclipse 1.0.0"/>
+  <device Dname="STM32L552ZETxQ" Dvendor="STMicroelectronics:13" info="ARM , 384 KB RAM, 1 MB ROM">
+    <package info="STMicroelectronics STM32L5 Series Device Support" name="STM32L5xx_DFP" url="http://www.keil.com/pack" vendor="Keil" version="1.0.9-dev4"/>
+    <processor Dclock="110000000" Dcore="Cortex-M33" DcoreVersion="r0p0" Ddsp="DSP" Dendian="Little-endian" Dfpu="SP_FPU" Dmpu="MPU" DnumInterrupts="128" DnumSauRegions="8" Dtz="TZ"/>
+  </device>
+  <resources>
+    <memories>
+      <memory access="r" info="Secure Image Header for Bootloader" name="HEADER_S" physical="0x08010000" security="s" shared="1" size="0x00000400" start="0x0C010000" type="ROM"/>
+      <memory access="rx" info="Secure Application CODE section" name="CODE_S" physical="0x08010400" privilege="" security="s" shared="1" size="0x0001F400" start="0x0C010400" startup="1" type="ROM"/>
+      <memory access="rx" info="Non-secure callable Veneers" name="VENEERS" physical="0x0802F800" security="c" shared="1" size="0x00000340" start="0x0C02F800" type="ROM"/>
+      <memory access="r" info="Secure Image Trailer for Bootloader" name="TRAILER_S" physical="0x0802FC00" security="s" shared="1" size="0x00000400" start="0x0C02FC00" type="ROM"/>
+      <memory access="rw" info="Secure Application DATA section" name="DATA_S" physical="0x20000000" privilege="" security="s" shared="1" size="0x00020000" start="0x30000000" type="RAM"/>
+      <mpc blk_size="0x100" info="SRAM1" name="GTZC_MPCBB1_S" size="0x00030000" start="0x20000000" type="s"/>
+      <mpc blk_size="0x100" info="SRAM2" name="GTZC_MPCBB2_S" size="0x00010000" start="0x20030000" type="s"/>
+    </memories>
+    <peripherals/>
+    <sau_init>
+      <region info="Non-Secure Peripherals" security="n" size="0x10000000" start="0x40000000"/>
+    </sau_init>
+  </resources>
+</rzone>

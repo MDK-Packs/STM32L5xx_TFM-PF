@@ -1,0 +1,235 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<azone xmlns:xs="http://www.w3.org/2001/XMLSchema-instance" xs:noNamespaceSchemaLocation="azone.xsd">
+  <rzone name="tfm.rzone"/>
+  <creator azone="../STM32L5.azone" info="" rzone="../STM32L5.rzone" tool="CMSIS Zone PlugIn for Eclipse 1.0.0"/>
+  <configure/>
+  <zones>
+    <zone Pname="" info="" name="tfm_s" privilege="" security="s">
+      <assign memory="HEADER_S"/>
+      <assign memory="CODE_S"/>
+      <assign memory="VENEERS"/>
+      <assign memory="TRAILER_S"/>
+      <assign memory="DATA_S"/>
+    </zone>
+    <zone Pname="" info="" name="tfm_ns" privilege="" security="n">
+      <assign memory="HEADER_NS"/>
+      <assign memory="CODE_NS"/>
+      <assign memory="TRAILER_NS"/>
+      <assign memory="DATA_NS"/>
+      <assign group="GPIO" peripheral="GPIOG"/>
+      <assign group="USART" peripheral="LPUART1"/>
+      <assign group="ADC" peripheral="ADC"/>
+      <assign group="ADC" peripheral="COMP"/>
+      <assign group="ADC" peripheral="DFSDM1"/>
+      <assign group="DMA" peripheral="DMA1"/>
+      <assign group="DMA" peripheral="DMA2"/>
+      <assign group="GPIO" peripheral="GPIOA"/>
+      <assign group="GPIO" peripheral="GPIOB"/>
+      <assign group="GPIO" peripheral="GPIOC"/>
+      <assign group="GPIO" peripheral="GPIOD"/>
+      <assign group="GPIO" peripheral="GPIOE"/>
+      <assign group="GPIO" peripheral="GPIOF"/>
+      <assign group="GPIO" peripheral="GPIOH"/>
+      <assign group="I2C" peripheral="I2C1"/>
+      <assign group="I2C" peripheral="I2C2"/>
+      <assign group="I2C" peripheral="I2C3"/>
+      <assign group="I2C" peripheral="I2C4"/>
+      <assign group="LPTIM" peripheral="LPTIM1"/>
+      <assign group="LPTIM" peripheral="LPTIM3"/>
+      <assign group="OctoSPI" peripheral="OCTOSPI1"/>
+      <assign group="SAI" peripheral="SAI1"/>
+      <assign group="SAI" peripheral="SAI2"/>
+      <assign group="SPI" peripheral="SPI1"/>
+      <assign group="SPI" peripheral="SPI3"/>
+      <assign group="SPI" peripheral="SPI2"/>
+      <assign group="TIM" peripheral="TIM1"/>
+      <assign group="TIM" peripheral="TIM2"/>
+      <assign group="TIM" peripheral="TIM3"/>
+      <assign group="TIM" peripheral="TIM4"/>
+      <assign group="TIM" peripheral="TIM5"/>
+      <assign group="TIM" peripheral="TIM6"/>
+      <assign group="TIM" peripheral="TIM7"/>
+      <assign group="TIM" peripheral="TIM15"/>
+      <assign group="TIM" peripheral="TIM8"/>
+      <assign group="TIM" peripheral="TIM16"/>
+      <assign group="TIM" peripheral="TIM17"/>
+      <assign group="UCPD" peripheral="UCPD1"/>
+      <assign group="USART" peripheral="USART1"/>
+      <assign group="USART" peripheral="USART3"/>
+      <assign group="USART" peripheral="USART2"/>
+      <assign group="USART" peripheral="UART4"/>
+      <assign group="USART" peripheral="UART5"/>
+      <assign peripheral="FDCAN1"/>
+    </zone>
+  </zones>
+  <partition>
+    <memory access="rx" info="Secure Storage area" name="SST" physical="0x08070000" privilege="" security="s" size="0x00005000" start="0x0C070000" type="ROM"/>
+    <memory access="rx" info="Internal Trusted Storage Area" name="ITS" physical="0x08075000" privilege="" security="s" size="0x00004000" start="0x0C075000" type="ROM"/>
+    <memory access="rx" info="Non-volatile Counters" name="NV_COUNTERS" physical="0x0807F000" privilege="" security="s" shared="1" size="0x00001000" start="0x0C07F000" type="ROM"/>
+    <memory access="rw" fixed="1" info="Secure Application DATA section" name="DATA_S" offset="0x00000000" parent="SRAM_S" privilege="" security="s" size="0x00020000"/>
+    <memory access="r" fixed="1" info="Secure Image Header for Bootloader" name="HEADER_S" offset="0x00000000" parent="IMAGE_1_S" security="s" size="0x00000400"/>
+    <memory access="rx" fixed="1" info="Secure Application CODE section" name="CODE_S" offset="0x00000400" parent="IMAGE_1_S" privilege="" security="s" size="0x0001F400" startup="1"/>
+    <memory fixed="1" info="Non-secure callable Veneers" name="VENEERS" offset="0x0001F800" parent="IMAGE_1_S" size="0x00000340"/>
+    <memory access="r" fixed="1" info="Secure Image Trailer for Bootloader" name="TRAILER_S" offset="0x0001FC00" parent="IMAGE_1_S" security="s" size="0x00000400"/>
+    <memory fixed="1" info="Non-secure Application DATA section" name="DATA_NS" offset="0x00020000" parent="SRAM_NS" size="0x00020000"/>
+    <memory access="r" fixed="1" info="Non-secure Image Header for Bootloader" name="HEADER_NS" offset="0x00000000" parent="IMAGE_1_NS" privilege="" security="n" size="0x00000400"/>
+    <memory fixed="1" info="Non-secure Application CODE section" name="CODE_NS" offset="0x00000400" parent="IMAGE_1_NS" size="0x0000F800" startup="1"/>
+    <memory access="r" fixed="1" info="Non-secure Image Trailer for Bootloader" name="TRAILER_NS" offset="0x0000FC00" parent="IMAGE_1_NS" privilege="" security="n" size="0x00000400"/>
+    <peripheral access="prw" group="GPIO" info="Port D" name="GPIOD" size="0x400" slot_name="Pins" slot_type="s" start="0x42020C00" start_s="0x52020C00">
+      <slot name="Pin 0" secure="0"/>
+      <slot name="Pin 1" secure="0"/>
+      <slot name="Pin 2" secure="0"/>
+      <slot name="Pin 3" secure="0"/>
+      <slot name="Pin 4" secure="0"/>
+      <slot name="Pin 5" secure="0"/>
+      <slot name="Pin 6" secure="0"/>
+      <slot name="Pin 7" secure="0"/>
+      <slot name="Pin 8" secure="0"/>
+      <slot name="Pin 9" secure="0"/>
+      <slot name="Pin 10" secure="0"/>
+      <slot name="Pin 11" secure="0"/>
+      <slot name="Pin 12" secure="0"/>
+      <slot name="Pin 13" secure="0"/>
+      <slot name="Pin 14" secure="0"/>
+      <slot name="Pin 15" secure="0"/>
+    </peripheral>
+    <peripheral access="prw" group="GPIO" info="Port A" name="GPIOA" size="0x400" slot_name="Pins" slot_type="s" start="0x42020000" start_s="0x52020000">
+      <slot name="Pin 0" secure="0"/>
+      <slot name="Pin 1" secure="0"/>
+      <slot name="Pin 2" secure="0"/>
+      <slot name="Pin 3" secure="0"/>
+      <slot name="Pin 4" secure="0"/>
+      <slot name="Pin 5" secure="0"/>
+      <slot name="Pin 6" secure="0"/>
+      <slot name="Pin 7" secure="0"/>
+      <slot name="Pin 8" secure="0"/>
+      <slot name="Pin 9" secure="0"/>
+      <slot name="Pin 10" secure="0"/>
+      <slot name="Pin 11" secure="0"/>
+      <slot name="Pin 12" secure="0"/>
+      <slot name="Pin 13" secure="0"/>
+      <slot name="Pin 14" secure="0"/>
+      <slot name="Pin 15" secure="0"/>
+    </peripheral>
+    <peripheral access="prw" group="GPIO" info="Port E" name="GPIOE" size="0x400" slot_name="Pins" slot_type="s" start="0x42021000" start_s="0x52021000">
+      <slot name="Pin 0" secure="0"/>
+      <slot name="Pin 1" secure="0"/>
+      <slot name="Pin 2" secure="0"/>
+      <slot name="Pin 3" secure="0"/>
+      <slot name="Pin 4" secure="0"/>
+      <slot name="Pin 5" secure="0"/>
+      <slot name="Pin 6" secure="0"/>
+      <slot name="Pin 7" secure="0"/>
+      <slot name="Pin 8" secure="0"/>
+      <slot name="Pin 9" secure="0"/>
+      <slot name="Pin 10" secure="0"/>
+      <slot name="Pin 11" secure="0"/>
+      <slot name="Pin 12" secure="0"/>
+      <slot name="Pin 13" secure="0"/>
+      <slot name="Pin 14" secure="0"/>
+      <slot name="Pin 15" secure="0"/>
+    </peripheral>
+    <peripheral access="prw" group="GPIO" info="Port B" name="GPIOB" size="0x400" slot_name="Pins" slot_type="s" start="0x42020400" start_s="0x52020400">
+      <slot name="Pin 0" secure="0"/>
+      <slot name="Pin 1" secure="0"/>
+      <slot name="Pin 2" secure="0"/>
+      <slot name="Pin 3" secure="0"/>
+      <slot name="Pin 4" secure="0"/>
+      <slot name="Pin 5" secure="0"/>
+      <slot name="Pin 6" secure="0"/>
+      <slot name="Pin 7" secure="0"/>
+      <slot name="Pin 8" secure="0"/>
+      <slot name="Pin 9" secure="0"/>
+      <slot name="Pin 10" secure="0"/>
+      <slot name="Pin 11" secure="0"/>
+      <slot name="Pin 12" secure="0"/>
+      <slot name="Pin 13" secure="0"/>
+      <slot name="Pin 14" secure="0"/>
+      <slot name="Pin 15" secure="0"/>
+    </peripheral>
+    <peripheral access="prw" group="GPIO" info="Port G" name="GPIOG" size="0x400" slot_name="Pins" slot_type="s" start="0x42021800" start_s="0x52021800">
+      <slot name="Pin 0" secure="0"/>
+      <slot name="Pin 1" secure="0"/>
+      <slot name="Pin 2" secure="0"/>
+      <slot name="Pin 3" secure="0"/>
+      <slot name="Pin 4" secure="0"/>
+      <slot name="Pin 5" secure="0"/>
+      <slot name="Pin 6" secure="0"/>
+      <slot name="Pin 7" secure="0"/>
+      <slot name="Pin 8" secure="0"/>
+      <slot name="Pin 9" secure="0"/>
+      <slot name="Pin 10" secure="0"/>
+      <slot name="Pin 11" secure="0"/>
+      <slot name="Pin 12" secure="0"/>
+      <slot name="Pin 13" secure="0"/>
+      <slot name="Pin 14" secure="0"/>
+      <slot name="Pin 15" secure="0"/>
+    </peripheral>
+    <peripheral access="prw" group="GPIO" info="Port C" name="GPIOC" size="0x400" slot_name="Pins" slot_type="s" start="0x42020800" start_s="0x52020800">
+      <slot name="Pin 0" secure="0"/>
+      <slot name="Pin 1" secure="0"/>
+      <slot name="Pin 2" secure="0"/>
+      <slot name="Pin 3" secure="0"/>
+      <slot name="Pin 4" secure="0"/>
+      <slot name="Pin 5" secure="0"/>
+      <slot name="Pin 6" secure="0"/>
+      <slot name="Pin 7" secure="0"/>
+      <slot name="Pin 8" secure="0"/>
+      <slot name="Pin 9" secure="0"/>
+      <slot name="Pin 10" secure="0"/>
+      <slot name="Pin 11" secure="0"/>
+      <slot name="Pin 12" secure="0"/>
+      <slot name="Pin 13" secure="0"/>
+      <slot name="Pin 14" secure="0"/>
+      <slot name="Pin 15" secure="0"/>
+    </peripheral>
+    <peripheral access="prw" group="GPIO" info="Port F" name="GPIOF" size="0x400" slot_name="Pins" slot_type="s" start="0x42021400" start_s="0x52021400">
+      <slot name="Pin 0" secure="0"/>
+      <slot name="Pin 1" secure="0"/>
+      <slot name="Pin 2" secure="0"/>
+      <slot name="Pin 3" secure="0"/>
+      <slot name="Pin 4" secure="0"/>
+      <slot name="Pin 5" secure="0"/>
+      <slot name="Pin 6" secure="0"/>
+      <slot name="Pin 7" secure="0"/>
+      <slot name="Pin 8" secure="0"/>
+      <slot name="Pin 9" secure="0"/>
+      <slot name="Pin 10" secure="0"/>
+      <slot name="Pin 11" secure="0"/>
+      <slot name="Pin 12" secure="0"/>
+      <slot name="Pin 13" secure="0"/>
+      <slot name="Pin 14" secure="0"/>
+      <slot name="Pin 15" secure="0"/>
+    </peripheral>
+    <peripheral access="prw" group="GPIO" info="Port H" name="GPIOH" size="0x400" slot_name="Pins" slot_type="s" start="0x42021C00" start_s="0x52021C00">
+      <slot name="Pin 0" secure="0"/>
+      <slot name="Pin 1" secure="0"/>
+      <slot name="Pin 2" secure="0"/>
+      <slot name="Pin 3" secure="0"/>
+      <slot name="Pin 4" secure="0"/>
+      <slot name="Pin 5" secure="0"/>
+      <slot name="Pin 6" secure="0"/>
+      <slot name="Pin 7" secure="0"/>
+      <slot name="Pin 8" secure="0"/>
+      <slot name="Pin 9" secure="0"/>
+      <slot name="Pin 10" secure="0"/>
+      <slot name="Pin 11" secure="0"/>
+      <slot name="Pin 12" secure="0"/>
+      <slot name="Pin 13" secure="0"/>
+      <slot name="Pin 14" secure="0"/>
+      <slot name="Pin 15" secure="0"/>
+    </peripheral>
+  </partition>
+  <creator azone="../STM32L5.azone" info="" rzone="../STM32L5.rzone" tool="CMSIS Zone PlugIn for Eclipse 1.0.0"/>
+  <creator azone="../STM32L5.azone" info="" rzone="../STM32L5.rzone" tool="CMSIS Zone PlugIn for Eclipse 1.0.0"/>
+  <creator azone="../STM32L5.azone" info="" rzone="../STM32L5.rzone" tool="CMSIS Zone PlugIn for Eclipse 1.0.0"/>
+  <creator azone="../STM32L5.azone" info="" rzone="../STM32L5.rzone" tool="CMSIS Zone PlugIn for Eclipse 1.0.0"/>
+  <creator azone="../STM32L5.azone" info="" rzone="../STM32L5.rzone" tool="CMSIS Zone PlugIn for Eclipse 1.0.0"/>
+  <creator azone="../STM32L5.azone" info="" rzone="../STM32L5.rzone" tool="CMSIS Zone PlugIn for Eclipse 1.0.0"/>
+  <creator azone="../STM32L5.azone" info="" rzone="../STM32L5.rzone" tool="CMSIS Zone PlugIn for Eclipse 1.0.0"/>
+  <creator azone="../STM32L5.azone" info="" rzone="../STM32L5.rzone" tool="CMSIS Zone PlugIn for Eclipse 1.0.0"/>
+  <creator azone="../STM32L5.azone" info="" rzone="../STM32L5.rzone" tool="CMSIS Zone PlugIn for Eclipse 1.0.0"/>
+  <creator azone="../STM32L5.azone" info="" rzone="../STM32L5.rzone" tool="CMSIS Zone PlugIn for Eclipse 1.0.0"/>
+  <creator azone="../STM32L5.azone" info="" rzone="../STM32L5.rzone" tool="CMSIS Zone PlugIn for Eclipse 1.0.0"/>
+  <creator azone="../STM32L5.azone" info="" rzone="../STM32L5.rzone" tool="CMSIS Zone PlugIn for Eclipse 1.0.0"/>
+</azone>

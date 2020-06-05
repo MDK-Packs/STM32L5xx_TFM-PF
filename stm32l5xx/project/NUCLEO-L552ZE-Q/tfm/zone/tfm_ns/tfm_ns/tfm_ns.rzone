@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<rzone xmlns:xs="http://www.w3.org/2001/XMLSchema-instance" xs:noNamespaceSchemaLocation="rzone.xsd">
+  <creator azone="../tfm_ns.azone" info="" rzone="../tfm_ns.rzone" security="n" tool="CMSIS Zone PlugIn for Eclipse 1.0.0"/>
+  <device Dname="STM32L552ZETxQ" Dvendor="STMicroelectronics:13" info="ARM , 384 KB RAM, 1 MB ROM">
+    <package info="STMicroelectronics STM32L5 Series Device Support" name="STM32L5xx_DFP" url="http://www.keil.com/pack" vendor="Keil" version="1.0.9-dev4"/>
+    <processor Dclock="110000000" Dcore="Cortex-M33" DcoreVersion="r0p0" Ddsp="DSP" Dendian="Little-endian" Dfpu="SP_FPU" Dmpu="MPU" DnumInterrupts="128" DnumSauRegions="8" Dtz="TZ"/>
+  </device>
+  <resources>
+    <memories>
+      <memory access="rx" info="Non-secure FLASH for CODE execution" name="CODE_NS" security="n" size="0x00030000" start="0x08040000" type="ROM"/>
+      <memory access="rw" info="DATA section" name="DATA_NS_" security="n" size="0x0001E000" start="0x20020000" type="RAM"/>
+      <memory access="rw" info="MSP STACK section" name="STACK_MSP_NS" security="n" size="0x00000400" start="0x2003E000" type="RAM"/>
+      <memory access="rw" info="PSP STACK section" name="STACK_PSP_NS" security="n" size="0x00000C00" start="0x2003E400" type="RAM"/>
+      <memory access="rw" info="HEAP section" name="HEAP_NS" security="n" size="0x00001000" start="0x2003F000" type="RAM"/>
+      <mpc blk_size="0x100" info="SRAM1" name="GTZC_MPCBB1_S" size="0x00030000" start="0x20000000" type="s"/>
+      <mpc blk_size="0x100" info="SRAM2" name="GTZC_MPCBB2_S" size="0x00010000" start="0x20030000" type="s"/>
+    </memories>
+    <peripherals/>
+    <sau_init>
+      <region info="Non-Secure Peripherals" security="n" size="0x10000000" start="0x40000000"/>
+    </sau_init>
+  </resources>
+</rzone>

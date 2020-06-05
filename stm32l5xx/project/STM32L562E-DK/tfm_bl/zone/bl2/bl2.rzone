@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<rzone xmlns:xs="http://www.w3.org/2001/XMLSchema-instance" xs:noNamespaceSchemaLocation="rzone.xsd">
+  <creator azone="../STM32L5.azone" info="" rzone="../STM32L5.rzone" security="s" tool="CMSIS Zone PlugIn for Eclipse 1.0.0"/>
+  <device Dname="STM32L552ZETxQ" Dvendor="STMicroelectronics:13" info="ARM , 384 KB RAM, 1 MB ROM">
+    <package info="STMicroelectronics STM32L5 Series Device Support" name="STM32L5xx_DFP" url="http://www.keil.com/pack" vendor="Keil" version="1.0.9-dev4"/>
+    <processor Dclock="110000000" Dcore="Cortex-M33" DcoreVersion="r0p0" Ddsp="DSP" Dendian="Little-endian" Dfpu="SP_FPU" Dmpu="MPU" DnumInterrupts="128" DnumSauRegions="8" Dtz="TZ"/>
+  </device>
+  <resources>
+    <memories>
+      <memory access="rx" name="Flash_NS" security="n" size="0x00080000" start="0x08000000" type="ROM"/>
+      <memory access="rx" info="Non-secure Image Primary slot" name="IMAGE_1_NS" security="n" shared="1" size="0x00010000" start="0x08030000" type="ROM"/>
+      <memory access="rx" info="Non-secure Image Secondary slot" name="IMAGE_2_NS" security="n" size="0x00010000" start="0x08040000" type="ROM"/>
+      <memory access="rx" name="Flash_S" physical="0x08000000" security="c" size="0x00080000" start="0x0C000000" type="ROM"/>
+      <memory access="rx" info="Bootloader Image" name="IMAGE_BL2" physical="0x08000000" privilege="" security="s" size="0x00008000" start="0x0C000000" type="ROM"/>
+      <memory access="rx" info="Secure Image Primary slot" name="IMAGE_1_S" physical="0x08010000" security="c" shared="1" size="0x00020000" start="0x0C010000" type="ROM"/>
+      <memory access="rx" info="Secure Image Secondary slot" name="IMAGE_2_S" physical="0x08050000" security="c" size="0x00020000" start="0x0C050000" type="ROM"/>
+      <memory access="rx" info="Scratch area for Bootloader - not supported!" name="SCRATCH" physical="0x08008000" privilege="" security="s" size="0x00008000" start="0x0C008000" type="ROM"/>
+      <memory access="rx" info="Non-volatile Counters" name="NV_COUNTERS" physical="0x0807F000" privilege="" security="s" shared="1" size="0x00001000" start="0x0C07F000" type="ROM"/>
+      <memory access="rwx" name="SRAM_S" physical="0x20000000" security="c" shared="1" size="0x00040000" start="0x30000000" type="RAM"/>
+      <mpc blk_size="0x100" info="SRAM1" name="GTZC_MPCBB1_S" size="0x00030000" start="0x20000000" type="s"/>
+      <mpc blk_size="0x100" info="SRAM2" name="GTZC_MPCBB2_S" size="0x00010000" start="0x20030000" type="s"/>
+    </memories>
+    <peripherals/>
+    <sau_init>
+      <region info="Non-Secure Peripherals" security="n" size="0x10000000" start="0x40000000"/>
+    </sau_init>
+  </resources>
+</rzone>
