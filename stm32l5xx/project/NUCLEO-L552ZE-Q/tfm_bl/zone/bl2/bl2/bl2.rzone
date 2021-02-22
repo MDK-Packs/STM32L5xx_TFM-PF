@@ -7,7 +7,7 @@
   </device>
   <resources>
     <memories>
-      <memory access="rx" info="Bootloader CODE section" name="CODE_BL2" physical="0x08000000" security="s" size="0x00008000" start="0x0C000000" startup="1" type="ROM"/>
+      <memory access="rx" info="Bootloader CODE section" name="CODE_BL2" physical="0x08000000" security="s" size="0x0000C000" start="0x0C000000" startup="1" type="ROM"/>
       <memory access="rw" info="Boot shared DATA section" name="DATA_BOOT" physical="0x20000000" privilege="" security="s" shared="1" size="0x00000400" start="0x30000000" type="RAM"/>
       <memory access="rw" info="Bootloader DATA section" name="DATA_BL2" physical="0x20000400" privilege="" security="s" shared="1" size="0x0001D400" start="0x30000400" type="RAM"/>
       <memory access="rw" info="Bootloader HEAP section" name="HEAP_BL2" physical="0x2001D800" privilege="" security="s" shared="1" size="0x00001000" start="0x3001D800" type="RAM"/>

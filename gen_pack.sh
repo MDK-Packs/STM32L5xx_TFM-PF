@@ -1,6 +1,6 @@
 #!/bin/bash
-# Version: 1.1
-# Date: 2020-05-14
+# Version: 1.2
+# Date: 2020-12-21
 # This bash script generates a CMSIS Software Pack:
 #
 # Pre-requisites:
@@ -51,21 +51,18 @@ PACK_WAREHOUSE=./output
 # Temporary pack build directory
 PACK_BUILD=./build
 
-# Specify directories included in pack relative to base directory
-# All directories:
-PACK_DIRS=`ls -d */`
-# Do not include the build directory if it is local
-PACK_DIRS=${PACK_DIRS//$PACK_BUILD/}
-PACK_DIRS=${PACK_DIRS//$PACK_WAREHOUSE/}
+# Specify directory names to be added to pack base directory
+PACK_DIRS="
+  stm32l5xx
+  rte
+"
 
-# alternative: specify directory names to be added to pack base directory
-# PACK_DIRS="
-#  Source
-#  Include
-#"
-  
 # Specify file names to be added to pack base directory
 PACK_BASE_FILES="
+"
+
+# Specify file names to be deleted from pack build directory
+PACK_DELETE_FILES="
 "
 
 ############ DO NOT EDIT BELOW ###########
@@ -105,6 +102,7 @@ if [ ${NUM_PDSCS} -lt 1 ]
   then
   echo "Error: No *.pdsc file found in current directory"
   echo " "
+  exit
 elif [ ${NUM_PDSCS} -gt 1 ]
   then
   echo "Error: Only one PDSC file allowed in directory structure:"
@@ -133,25 +131,36 @@ fi
 
 # Copy files into build base directory: $PACK_BUILD
 # pdsc file is mandatory in base directory:
-cp -f  "./${PACK_VENDOR}.${PACK_NAME}.pdsc" "${PACK_BUILD}"
+cp -f "./${PACK_VENDOR}.${PACK_NAME}.pdsc" "${PACK_BUILD}"
 
-# directories
+# Add directories
 echo Adding directories to pack:
 echo "${PACK_DIRS}"
 echo " "
 for d in ${PACK_DIRS}
 do
-  cp -r "$d" "${PACK_BUILD}"
+  cp -r --parents "$d" "${PACK_BUILD}"
 done
 
-# files for base directory
+# Add files
 echo Adding files to pack:
 echo "${PACK_BASE_FILES}"
 echo " "
 if [ ! -x ${PACK_BASE_FILES+x} ]; then
   for f in ${PACK_BASE_FILES}
     do
-      cp -f  "$f" $PACK_BUILD/ 
+      cp -f --parents "$f" $PACK_BUILD/
+  done
+fi
+
+# Delete files
+echo Deleting files from pack:
+echo "${PACK_DELETE_FILES}"
+echo " "
+if [ ! -x ${PACK_DELETE_FILES+x} ]; then
+  for f in ${PACK_DELETE_FILES}
+    do
+      find $PACK_BUILD/$(dirname "$f") -name $(basename "$f") -delete
   done
 fi
 
@@ -173,7 +182,13 @@ else
 fi
 
 # Run Pack Check and generate PackName file with version
-"${PACKCHK}" "${PACK_BUILD}/${PACK_VENDOR}.${PACK_NAME}.pdsc" -i "${CMSIS_PACK_ROOT}/.Web/ARM.TFM.pdsc" -i "${CMSIS_PACK_ROOT}/.Web/Keil.STM32L5xx_DFP.pdsc" -n PackName.txt -x M324 -x M362 -x M364
+"${PACKCHK}" "${PACK_BUILD}/${PACK_VENDOR}.${PACK_NAME}.pdsc" \
+  -i "${CMSIS_PACK_ROOT}/.Web/ARM.CMSIS.pdsc" \
+  -i "${CMSIS_PACK_ROOT}/.Web/Keil.STM32L5xx_DFP.pdsc" \
+  -i "${CMSIS_PACK_ROOT}/.Web/Keil.NUCLEO-L552ZE-Q_BSP.pdsc" \
+  -i "${CMSIS_PACK_ROOT}/.Web/Keil.STM32L562E-DK_BSP.pdsc" \
+  -i "${CMSIS_PACK_ROOT}/.Web/ARM.TFM.pdsc" \
+  -n PackName.txt
 errorlevel=$?
 if [ $errorlevel -ne 0 ]; then
   echo "build aborted: pack check failed"
@@ -191,13 +206,13 @@ echo "creating pack file $PACKNAME"
 if [ ! -d "$PACK_WAREHOUSE" ]; then
   mkdir -p "$PACK_WAREHOUSE"
 fi
-pushd "$PACK_WAREHOUSE"
+pushd "$PACK_WAREHOUSE" > /dev/null
 PACK_WAREHOUSE=$(pwd)
-popd
-pushd "$PACK_BUILD"
+popd  > /dev/null
+pushd "$PACK_BUILD" > /dev/null
 PACK_BUILD=$(pwd)
 "$ZIP" a "$PACK_WAREHOUSE/$PACKNAME" -tzip
-popd
+popd  > /dev/null
 errorlevel=$?
 if [ $errorlevel -ne 0 ]; then
   echo "build aborted: archiving failed"

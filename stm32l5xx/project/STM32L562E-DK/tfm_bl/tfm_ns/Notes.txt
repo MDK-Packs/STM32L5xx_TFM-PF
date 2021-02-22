@@ -1,0 +1,57 @@
+How to create the application
+-----------------------------
+
+uVision:
+ - create new project
+ - select device STMicroelectronics STM32L562QEIxQ
+ - RTE: select Device:STM32Cube Framework:STM32CubeMX and launch STM32CubeMX
+
+STM32CubeMX:
+ - TrustZone not activated
+ - Pinout & Configuration
+ -- System Core
+ --- NVIC
+ ---- NVIC
+ ----- System service call via SWI instruction: Preemption Priority = 6
+ ----- Pendable request for system service: Preemption Priority = 7
+ ----- Time base: System tick timer: Preemption Priority = 7
+ ---- Code generation
+ ----- System service call via SWI instruction: disable Generate IRQ handler
+ ----- Pendable request for system service: disable Generate IRQ handler
+ ----- Time base: System tick timer: disable Generate IRQ handler
+ ----- Time base: System tick timer: disable Call HAL handler
+ --- ICACHE
+ ---- Mode: 2-ways set associative cache
+ - Clock Configuration
+ -- System Clock Mux: PLLCLK
+ -- PLL N: x55
+ - Project Manager
+ -- Code Generator: Add necessary library files as reference
+ - Generate Code
+ - Close
+ - go back to uVision
+
+uVision:
+ - Target Options - Target - Code Generation - Software Model: Non-Secure Mode
+ - Target Options - Target
+ -- IROM1: start=0x08030400, size=0xF800
+ -- IRAM1: start=0x20020000, size=0x20000
+ - Target Options - C/C++ - Warnings: AC5-like Warnings
+ - Target Options - Output - Create HEX file
+ - Target Options - User - Run After Build: image.bat (signing image)
+ - Target Options - Utilities - Init File: flash.ini 
+ - RTE
+ -- select TFM:Core (SFN or IPC variant)
+ -- select TFM:API:* as needed
+ -- select CMSIS-RTOS2:Keil RTX5 (Source_NS)
+ -- select CMSIS:CORE
+ -- resolve dependencies
+ - update main.h:
+ -- add includes: cmsis_os2.h, tfm_ns_interface.h
+ - update main.c:
+ -- override default HAL_GetTick function (using osKernelGetTickCount)
+ -- add RTOS and TF-M initialization and RTOS startup to main() before infinite loop
+ --- osKernelInitialize(); tfm_ns_interface_init(); osKernelStart();
+ - add TF-M CMSE library: tfm_s_CMSE_Lib.o( from secure project)
+ - select Debug adapter: ST-Link Debugger
+ - select Debug script (load Secure image) and deselect Run to main()

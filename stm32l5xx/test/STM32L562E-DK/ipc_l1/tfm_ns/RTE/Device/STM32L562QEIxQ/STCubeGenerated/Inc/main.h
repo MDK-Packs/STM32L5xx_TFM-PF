@@ -32,14 +32,10 @@ extern "C" {
 
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
-#include "RTE_Components.h"
 #include "cmsis_os2.h"                  // ::CMSIS:RTOS2
-#ifdef RTE_TFM_TEST_FRAMEWORK_NS
 #include "Driver_USART.h"
-#include "tfm_config.h"
 #include "tfm_test_config.h"
 #include "tfm_config_rte.h"
-#endif
 /* USER CODE END Includes */
 
 /* Exported types ------------------------------------------------------------*/

@@ -4,9 +4,9 @@
   <creator azone="../STM32L5.azone" info="Bootloader" rzone="../STM32L5.rzone" security="s" tool="CMSIS Zone PlugIn for Eclipse 1.0.0"/>
   <configure/>
   <partition>
-    <memory access="rx" info="Bootloader Image" name="IMAGE_BL2" physical="0x08000000" privilege="" security="s" size="0x00008000" start="0x0C000000" type="ROM"/>
-    <memory info="Bootloader CODE section" name="CODE_BL2" offset="0x00000000" parent="IMAGE_BL2" size="0x00008000" startup="1"/>
-    <memory access="rx" info="Non-volatile Counters" name="NV_COUNTERS" physical="0x0807F000" privilege="" security="s" shared="1" size="0x00001000" start="0x0C07F000" type="ROM"/>
+    <memory access="rx" info="Non-volatile Counters" name="NV_COUNTERS" physical="0x0807E000" privilege="" security="s" shared="1" size="0x00001000" start="0x0C07E000" type="ROM"/>
+    <memory access="rx" info="Bootloader Image" name="IMAGE_BL2" physical="0x08000000" privilege="" security="s" size="0x0000C000" start="0x0C000000" type="ROM"/>
+    <memory info="Bootloader CODE section" name="CODE_BL2" offset="0x00000000" parent="IMAGE_BL2" size="0x0000C000" startup="1"/>
     <memory access="rw" name="SRAM_S" physical="0x20000000" privilege="" security="s" shared="1" size="0x00040000" start="0x30000000" type="RAM"/>
     <memory fixed="1" info="Boot shared DATA section" name="DATA_BOOT" offset="0x00000000" parent="SRAM_S" size="0x00000400"/>
     <memory fixed="1" info="Bootloader DATA section" name="DATA_BL2" offset="0x00000400" parent="SRAM_S" size="0x0001D400"/>
@@ -23,6 +23,8 @@
       <assign memory="STACK_BL2"/>
     </zone>
   </zones>
+  <creator azone="../STM32L5.azone" info="" rzone="../STM32L5.rzone" security="s" tool="CMSIS Zone PlugIn for Eclipse 1.0.0"/>
+  <creator azone="../STM32L5.azone" info="" rzone="../STM32L5.rzone" security="s" tool="CMSIS Zone PlugIn for Eclipse 1.0.0"/>
   <creator azone="../STM32L5.azone" info="" rzone="../STM32L5.rzone" security="s" tool="CMSIS Zone PlugIn for Eclipse 1.0.0"/>
   <creator azone="../STM32L5.azone" info="" rzone="../STM32L5.rzone" security="s" tool="CMSIS Zone PlugIn for Eclipse 1.0.0"/>
   <creator azone="../STM32L5.azone" info="" rzone="../STM32L5.rzone" security="s" tool="CMSIS Zone PlugIn for Eclipse 1.0.0"/>

@@ -7,8 +7,8 @@
   </device>
   <resources>
     <memories>
-      <memory access="r" info="Secure Image Header for Bootloader" name="HEADER_S" physical="0x08010000" security="s" shared="1" size="0x00000400" start="0x0C010000" type="ROM"/>
-      <memory access="rx" info="Secure Application CODE section" name="CODE_S" physical="0x08010400" privilege="" security="s" shared="1" size="0x0001F400" start="0x0C010400" startup="1" type="ROM"/>
+      <memory access="r" info="Secure Image Header for Bootloader" name="HEADER_S" physical="0x0800C000" security="s" shared="1" size="0x00000400" start="0x0C00C000" type="ROM"/>
+      <memory access="rx" info="Secure Application CODE section" name="CODE_S" physical="0x0800C400" privilege="" security="s" shared="1" size="0x00023400" start="0x0C00C400" startup="1" type="ROM"/>
       <memory access="rx" info="Non-secure callable Veneers" name="VENEERS" physical="0x0802F800" security="c" shared="1" size="0x00000340" start="0x0C02F800" type="ROM"/>
       <memory access="r" info="Secure Image Trailer for Bootloader" name="TRAILER_S" physical="0x0802FC00" security="s" shared="1" size="0x00000400" start="0x0C02FC00" type="ROM"/>
       <memory access="rw" info="Secure Application DATA section" name="DATA_S" physical="0x20000000" privilege="" security="s" shared="1" size="0x00020000" start="0x30000000" type="RAM"/>

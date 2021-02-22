@@ -17,7 +17,6 @@
   ******************************************************************************
   */
 /* USER CODE END Header */
-
 /* Includes ------------------------------------------------------------------*/
 #include "main.h"
 
@@ -33,9 +32,7 @@
 
 /* Private define ------------------------------------------------------------*/
 /* USER CODE BEGIN PD */
-#ifdef  RTE_TFM_TEST_FRAMEWORK_NS
 #define main main0
-#endif
 #define DELAY_SLOW_CYCLES       2U
 /* USER CODE END PD */
 
@@ -124,15 +121,12 @@ int main(void)
 
   /* Infinite loop */
   /* USER CODE BEGIN WHILE */
-  while (1)
-  {
-#ifdef  RTE_TFM_TEST_FRAMEWORK_NS
-    break;
-#endif
+//  while (1)
+//  {
     /* USER CODE END WHILE */
 
     /* USER CODE BEGIN 3 */
-  }
+//  }
   return 0;
   /* USER CODE END 3 */
 }
@@ -146,13 +140,14 @@ void SystemClock_Config(void)
   RCC_OscInitTypeDef RCC_OscInitStruct = {0};
   RCC_ClkInitTypeDef RCC_ClkInitStruct = {0};
 
-  /** Configure the main internal regulator output voltage 
+  /** Configure the main internal regulator output voltage
   */
   if (HAL_PWREx_ControlVoltageScaling(PWR_REGULATOR_VOLTAGE_SCALE0) != HAL_OK)
   {
     Error_Handler();
   }
-  /** Initializes the CPU, AHB and APB busses clocks 
+  /** Initializes the RCC Oscillators according to the specified parameters
+  * in the RCC_OscInitTypeDef structure.
   */
   RCC_OscInitStruct.OscillatorType = RCC_OSCILLATORTYPE_HSI|RCC_OSCILLATORTYPE_MSI;
   RCC_OscInitStruct.HSIState = RCC_HSI_ON;
@@ -171,7 +166,7 @@ void SystemClock_Config(void)
   {
     Error_Handler();
   }
-  /** Initializes the CPU, AHB and APB busses clocks 
+  /** Initializes the CPU, AHB and APB buses clocks
   */
   RCC_ClkInitStruct.ClockType = RCC_CLOCKTYPE_HCLK|RCC_CLOCKTYPE_SYSCLK
                               |RCC_CLOCKTYPE_PCLK1|RCC_CLOCKTYPE_PCLK2;
@@ -201,7 +196,7 @@ static void MX_ICACHE_Init(void)
   /* USER CODE BEGIN ICACHE_Init 1 */
 
   /* USER CODE END ICACHE_Init 1 */
-  /** Enable instruction cache (default 2-ways set associative cache) 
+  /** Enable instruction cache (default 2-ways set associative cache)
   */
   if (HAL_ICACHE_Enable() != HAL_OK)
   {
@@ -276,35 +271,34 @@ static void MX_GPIO_Init(void)
 }
 
 /* USER CODE BEGIN 4 */
-#ifdef RTE_TFM_TEST_FRAMEWORK_NS
 extern ARM_DRIVER_USART NS_DRIVER_STDIO;
-int32_t tfm_ns_platform_init(void)
+
+int32_t tfm_hal_platform_init(void)
 {
-    int32_t ret;
+  int32_t ret;
 
-    main();
+  main();
 
-    ret = NS_DRIVER_STDIO.Initialize(NULL);
-    if (ret != ARM_DRIVER_OK) {
-      return ARM_DRIVER_ERROR;
-    }
+  ret = NS_DRIVER_STDIO.Initialize(NULL);
+  if (ret != ARM_DRIVER_OK) {
+    return (-1);
+  }
 
-    ret = NS_DRIVER_STDIO.PowerControl(ARM_POWER_FULL);
-    if (ret != ARM_DRIVER_OK) {
-      return ARM_DRIVER_ERROR;
-    }
+  ret = NS_DRIVER_STDIO.PowerControl(ARM_POWER_FULL);
+  if (ret != ARM_DRIVER_OK) {
+    return (-1);
+  }
 
-    ret = NS_DRIVER_STDIO.Control(ARM_USART_MODE_ASYNCHRONOUS,
-                                  DEFAULT_UART_BAUDRATE);
-    if (ret != ARM_DRIVER_OK) {
-      return ARM_DRIVER_ERROR;
-    }
+  ret = NS_DRIVER_STDIO.Control(ARM_USART_MODE_ASYNCHRONOUS,
+                                DEFAULT_UART_BAUDRATE);
+  if (ret != ARM_DRIVER_OK) {
+    return (-1);
+  }
 
-    (void)NS_DRIVER_STDIO.Control(ARM_USART_CONTROL_TX, 1);
+  (void)NS_DRIVER_STDIO.Control(ARM_USART_CONTROL_TX, 1);
 
-    return ARM_DRIVER_OK;
+  return 0;
 }
-#endif
 /* USER CODE END 4 */
 
 /**
@@ -328,7 +322,7 @@ void Error_Handler(void)
   * @retval None
   */
 void assert_failed(uint8_t *file, uint32_t line)
-{ 
+{
   /* USER CODE BEGIN 6 */
   /* User can add his own implementation to report the file name and line number,
      tex: printf("Wrong parameters value: file %s on line %d\r\n", file, line) */

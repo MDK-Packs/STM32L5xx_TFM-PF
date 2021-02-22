@@ -17,20 +17,12 @@
 #ifndef __TARGET_CFG_H__
 #define __TARGET_CFG_H__
 
+#include <stdint.h>
 #include "tfm_peripherals_def.h"
 
 #ifdef __cplusplus
 extern "C" {
 #endif
-
-/**
- * \brief Defines peripheral identifiers
- */
-#define PERIPHERAL_NONE 0xFFFFFFFFU
-/*
-Identifiers are defined in STM32HAL GTZC
-#define GTZC_PERIPH_abc 0xXXXXXXXXU
-*/
 
 /**
  * \brief Store the addresses of memory regions
@@ -41,10 +33,6 @@ struct memory_region_limits {
     uint32_t non_secure_partition_limit;
     uint32_t veneer_base;
     uint32_t veneer_limit;
-#ifdef BL2
-    uint32_t secondary_partition_base;
-    uint32_t secondary_partition_limit;
-#endif /* BL2 */
 };
 
 /**
@@ -58,46 +46,11 @@ struct tfm_spm_partition_platform_data_t
 };
 
 /**
- * \brief Configures System Isloation (SAU and IDAU,
+ * \brief Configures System Isolation (SAU and IDAU,
  *        Memory Protection Controller,
  *        Peripheral Protection Controller)
  */
 extern void SystemIsolation_Config(void);
-
-/**
- * \brief Configures the Memory Protection Controller.
- */
-void mpc_init_cfg(void);
-
-/**
- * \brief Configures the Peripheral Protection Controller.
- */
-void ppc_init_cfg(void);
-
-/**
- * \brief Restict access to peripheral to secure
- */
-void ppc_configure_to_secure(uint32_t periph_id);
-
-/**
- * \brief Allow non-secure access to peripheral
- */
-void ppc_configure_to_non_secure(uint32_t periph_id);
-
-/**
- * \brief Enable secure unprivileged access to peripheral
- */
-void ppc_en_secure_unpriv(uint32_t periph_id);
-
-/**
- * \brief Clear secure unprivileged access to peripheral
- */
-void ppc_clr_secure_unpriv(uint32_t periph_id);
-
-/**
- * \brief Configures SAU and IDAU.
- */
-void sau_and_idau_cfg(void);
 
 /**
  * \brief Enables the fault handlers and sets priorities.

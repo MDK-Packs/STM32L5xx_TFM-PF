@@ -1,12 +1,12 @@
 /*
- * Copyright (c) 2018-2019, Arm Limited. All rights reserved.
+ * Copyright (c) 2018-2020, Arm Limited. All rights reserved.
  *
  * SPDX-License-Identifier: BSD-3-Clause
  *
  */
 
+#include "tfm_platform_system.h"
 #include CMSIS_device_header
-#include "platform/include/tfm_platform_system.h"
 
 void tfm_platform_hal_system_reset(void)
 {

@@ -15,37 +15,9 @@
       </access>
       <dma>0</dma>
       <external>0</external>
-      <info>Non-secure callable FLASH for CODE veneer table</info>
-      <name>VENEERS</name>
-      <physical>0x0803FC00</physical>
-      <privilege>
-        <p>0</p>
-        <u>0</u>
-      </privilege>
-      <security>
-        <s>0</s>
-        <n>0</n>
-        <c>1</c>
-      </security>
-      <shared>0</shared>
-      <size>0x00000340</size>
-      <start>0x0C03FC00</start>
-      <startup>0</startup>
-      <type>ROM</type>
-      <uninit>0</uninit>
-    </memory>
-    <memory>
-      <access>
-        <p>0</p>
-        <r>1</r>
-        <w>0</w>
-        <x>1</x>
-      </access>
-      <dma>0</dma>
-      <external>0</external>
-      <info>Secure Storage Area</info>
-      <name>SST</name>
-      <physical>0x08070000</physical>
+      <info>Protected Storage Area</info>
+      <name>PS</name>
+      <physical>0x08078000</physical>
       <privilege>
         <p>0</p>
         <u>0</u>
@@ -56,8 +28,8 @@
         <c>0</c>
       </security>
       <shared>0</shared>
-      <size>0x00005000</size>
-      <start>0x0C070000</start>
+      <size>0x00004000</size>
+      <start>0x0C078000</start>
       <startup>0</startup>
       <type>ROM</type>
       <uninit>0</uninit>
@@ -99,9 +71,9 @@
       </access>
       <dma>0</dma>
       <external>0</external>
-      <info>Non-volatile Counters</info>
-      <name>NV_COUNTERS</name>
-      <physical>0x0807F000</physical>
+      <info>Internal Trusted Storage Area</info>
+      <name>ITS</name>
+      <physical>0x0807C000</physical>
       <privilege>
         <p>0</p>
         <u>0</u>
@@ -112,8 +84,36 @@
         <c>0</c>
       </security>
       <shared>0</shared>
-      <size>0x00001000</size>
-      <start>0x0C07F000</start>
+      <size>0x00002000</size>
+      <start>0x0C07C000</start>
+      <startup>0</startup>
+      <type>ROM</type>
+      <uninit>0</uninit>
+    </memory>
+    <memory>
+      <access>
+        <p>0</p>
+        <r>1</r>
+        <w>0</w>
+        <x>1</x>
+      </access>
+      <dma>0</dma>
+      <external>0</external>
+      <info>Non-secure callable FLASH for CODE veneer table</info>
+      <name>VENEERS</name>
+      <physical>0x0803FC00</physical>
+      <privilege>
+        <p>0</p>
+        <u>0</u>
+      </privilege>
+      <security>
+        <s>0</s>
+        <n>0</n>
+        <c>1</c>
+      </security>
+      <shared>0</shared>
+      <size>0x00000340</size>
+      <start>0x0C03FC00</start>
       <startup>0</startup>
       <type>ROM</type>
       <uninit>0</uninit>
@@ -155,9 +155,9 @@
       </access>
       <dma>0</dma>
       <external>0</external>
-      <info>Internal Trusted Storage Area</info>
-      <name>ITS</name>
-      <physical>0x08075000</physical>
+      <info>Non-volatile Counters</info>
+      <name>NV_COUNTERS</name>
+      <physical>0x0807E000</physical>
       <privilege>
         <p>0</p>
         <u>0</u>
@@ -168,8 +168,8 @@
         <c>0</c>
       </security>
       <shared>0</shared>
-      <size>0x00004000</size>
-      <start>0x0C075000</start>
+      <size>0x00001000</size>
+      <start>0x0C07E000</start>
       <startup>0</startup>
       <type>ROM</type>
       <uninit>0</uninit>

@@ -9,9 +9,9 @@
     <memories>
       <memory access="rx" info="Secure FLASH for CODE execution" name="CODE_S" physical="0x08000000" privilege="" security="s" size="0x0003FC00" start="0x0C000000" startup="1" type="ROM"/>
       <memory access="rx" info="Non-secure callable FLASH for CODE veneer table" name="VENEERS" physical="0x0803FC00" security="c" size="0x00000340" start="0x0C03FC00" type="ROM"/>
-      <memory access="rx" info="Secure Storage Area" name="SST" physical="0x08070000" privilege="" security="s" size="0x00005000" start="0x0C070000" type="ROM"/>
-      <memory access="rx" info="Internal Trusted Storage Area" name="ITS" physical="0x08075000" privilege="" security="s" size="0x00004000" start="0x0C075000" type="ROM"/>
-      <memory access="rx" info="Non-volatile Counters" name="NV_COUNTERS" physical="0x0807F000" privilege="" security="s" size="0x00001000" start="0x0C07F000" type="ROM"/>
+      <memory access="rx" info="Protected Storage Area" name="PS" physical="0x08078000" privilege="" security="s" size="0x00004000" start="0x0C078000" type="ROM"/>
+      <memory access="rx" info="Internal Trusted Storage Area" name="ITS" physical="0x0807C000" privilege="" security="s" size="0x00002000" start="0x0C07C000" type="ROM"/>
+      <memory access="rx" info="Non-volatile Counters" name="NV_COUNTERS" physical="0x0807E000" privilege="" security="s" size="0x00001000" start="0x0C07E000" type="ROM"/>
       <memory access="rw" info="Secure RAM for DATA section" name="DATA_S" physical="0x20000000" security="s" size="0x00020000" start="0x30000000" type="RAM"/>
       <mpc blk_size="0x100" info="SRAM1" name="GTZC_MPCBB1_S" size="0x00030000" start="0x20000000" type="s"/>
       <mpc blk_size="0x100" info="SRAM2" name="GTZC_MPCBB2_S" size="0x00010000" start="0x20030000" type="s"/>

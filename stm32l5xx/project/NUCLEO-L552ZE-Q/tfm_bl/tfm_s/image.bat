@@ -1,3 +1,2 @@
-fromelf.exe --bincombined --output=Objects\tfm_s.bin Objects\tfm_s.axf
-python ../scripts/imgtool.py sign -l ../tfm_s/layout.txt -k root-rsa-3072.pem -K full --align 1 -v 1.2.3+4 -s 42 -H 0x400 Objects/tfm_s.bin Objects/tfm_s_signed.bin
-srec_cat Objects\tfm_s_signed.bin -Binary -offset 0x0C010000 -o Objects/tfm_s.hex -Intel
+imgtool sign -k root-rsa-3072.pem --public-key-format full --align 1 --pad --pad-header --boot-record SPE -H 0x400 -S 0x24000 -s auto -v 1.2.0 -d "(0,0.0.0+0)" --overwrite-only                        Objects\tfm_s.hex Objects\tfm_s_signed.hex
+imgtool sign -k root-rsa-3072.pem --public-key-format full --align 1       --pad-header --boot-record SPE -H 0x400 -S 0x24000 -s auto -v 1.2.0 -d "(0,0.0.0+0)" --overwrite-only -E enc-rsa2048-pub.pem Objects\tfm_s.hex Objects\tfm_s_encrypted.bin

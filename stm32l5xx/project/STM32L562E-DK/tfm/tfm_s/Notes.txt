@@ -1,0 +1,122 @@
+How to create the TF-M Secure Firmware
+--------------------------------------
+
+uVision:
+ - create new project tfm_secure_fw
+ - select device STMicroelectronics STM32L562QEIxQ
+ - set target name STM32L562E-DK
+ - RTE: select Device:STM32Cube Framework:STM32CubeMX and launch STM32CubeMX
+
+STM32CubeMX:
+ - TrustZone not activated
+ - Pinout & Configuration
+ -- System Core
+ --- NVIC
+ ---- Code generation
+ ----- Hard fault interrupt: disable Generate IRQ handler
+ ----- Memory management: disable Generate IRQ handler
+ ----- Prefetch fault, memory access fault: disable Generate IRQ handler
+ ----- Undefined instruction or illegal: disable Generate IRQ handler
+ ----- System service call via SWI instruction: disable Generate IRQ handler
+ ----- Pendable request for system service: disable Generate IRQ handler
+ --- ICACHE
+ ---- Mode: 2-ways set associative cache
+ -- Connectivity
+ --- USART1
+ ---- Mode: Asynchronous
+ ---- GPIO Settings
+ ----- PA9:  USART1_TX, Maximum output speed: Very High
+ ----- PA10: USART1_RX, Maximum output speed: Very High
+ -- Security
+ --- AES
+ ---- Activated
+ --- HASH
+ ---- Activated
+ --- PKA
+ ---- Activated
+ --- RNG
+ ---- Activated
+ - Clock Configuration
+ -- System Clock Mux: PLLCLK
+ -- PLL N: x55
+ -- CLK48 Clock Mux: MSI
+ - Project Manager
+ -- Code Generator: Add necessary library files as reference
+ -- Advanced Settings
+ --- AES: disable Generate Code
+ --- HASH: disable Generate Code
+ --- PKA: disable Generate Code
+ --- RNG: disable Generate Code
+ - Generate Code
+ - Close
+ - go back to uVision
+
+uVision:
+ - Target Options - Target - Code Generation - Software Model: Secure Mode
+ - Target Options - C/C++ - Warnings: AC5-like Warnings
+ - RTE
+ -- select TFM:Core (SFN or IPC variant)
+ -- select TFM:Secure Service:* as needed
+ -- select TFM Platform:* required components
+ -- select Security:mbed TLS
+ -- select CMSIS Driver:Flash:Custom
+ -- select CMSIS Driver:USART:Custom
+ -- select CMSIS:CORE
+ -- resolve dependencies
+ - add Flash Driver (taken from STM32Cube)
+ - add USART Driver (output redirected to ST UART HAL)
+ -- user code template (empty implementation)
+ -- add include headers:
+    #include "stm32l5xx_hal.h"
+    #include "main.h"
+ -- update Send function
+    int32_t ARM_USART_Send(const void *data, uint32_t num)
+    {
+      HAL_UART_Transmit(&hlpuart1, (uint8_t *)data, num, 1000U);
+      return ARM_DRIVER_OK;
+    }
+ -- rename exported driver to Driver_USART1 (add 1 index)
+ - update stm32l5xx_hal_conf.h:
+ -- uncomment define: HAL_GTZC_MODULE_ENABLED
+ - update main.h:
+ -- add: extern UART_HandleTypeDef hlpuart1;
+ - update main.c:
+ -- add include: tfm_hal_platform.h
+ -- define main as main0
+ -- remove endless loop from main
+ -- add tfm_hal_platform_init() calling __enable_irq() and main()
+ - update Device:startup_stm32l562xx.s (startup file)
+ -- Vector table:
+ --- change __initial_sp to |Image$$ARM_LIB_STACK_MSP$$ZI$$Limit| and add IMPORT (Stack_Size=0)
+ -- Reset Handler:
+ --- import linker defined symbols
+     IMPORT  |Image$$ARM_LIB_STACK_MSP$$ZI$$Base|
+     IMPORT  |Image$$ARM_LIB_STACK$$ZI$$Limit|
+     IMPORT  |Image$$ARM_LIB_STACK$$ZI$$Base|
+ --- add MSPLIM setup at the start
+     LDR     R0, =|Image$$ARM_LIB_STACK_MSP$$ZI$$Base|
+     MSR     MSPLIM, R0
+ --- add PSP setup and switch to PSP before branching to __main
+     LDR     R0, =|Image$$ARM_LIB_STACK$$ZI$$Limit|
+     MSR     PSP, R0
+     LDR     R0, =|Image$$ARM_LIB_STACK$$ZI$$Base|
+     MRS     R0, control    ; Get control value
+     ORR     R0, R0, #2     ; Select switch to PSP
+     MSR     control, R0
+ - update Device:system_stm32l5xx_s.c (system file)
+ -- change CMSE_NS_ENTRY to __attribute__((cmse_nonsecure_entry, noinline, section("SFN")))
+ - setup linker:
+ -- scatter file: tfm_common_s.sct
+ -- options:
+    --import_cmse_lib_out="Objects/tfm_secure_fw_CMSE_Lib.o"
+    --predefine="-include tfm_config.h"
+    --predefine="-include tfm_config_rte.h"
+    --predefine="-IRTE/_STM32L562E-DK/"
+    --predefine="-IRTE/TFM_Platform/STM32L562QEIxQ/"
+    --diag_suppress=L6312,L6314,L6329
+ - select Debug adapter: ST-Link Debugger
+ - select Debug script (load Non-secure image) and deselect Run to main()
+ - optionally update CMSIS Zone generated files:
+ -- mem_layout.h: memory regions
+ -- partition_gen.h: SAU and Interrupts
+ -- sys_isolation_cfg.c: GTZC and MPC/PPC

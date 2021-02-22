@@ -15,61 +15,6 @@
       </access>
       <dma>0</dma>
       <external>0</external>
-      <name>Flash_NS</name>
-      <physical>0x08000000</physical>
-      <privilege>
-        <p>0</p>
-        <u>0</u>
-      </privilege>
-      <security>
-        <s>0</s>
-        <n>1</n>
-        <c>0</c>
-      </security>
-      <shared>0</shared>
-      <size>0x00080000</size>
-      <start>0x08000000</start>
-      <startup>0</startup>
-      <type>ROM</type>
-      <uninit>0</uninit>
-    </memory>
-    <memory>
-      <access>
-        <p>0</p>
-        <r>1</r>
-        <w>0</w>
-        <x>1</x>
-      </access>
-      <dma>0</dma>
-      <external>0</external>
-      <info>Non-volatile Counters</info>
-      <name>NV_COUNTERS</name>
-      <physical>0x0807F000</physical>
-      <privilege>
-        <p>0</p>
-        <u>0</u>
-      </privilege>
-      <security>
-        <s>1</s>
-        <n>0</n>
-        <c>0</c>
-      </security>
-      <shared>1</shared>
-      <size>0x00001000</size>
-      <start>0x0C07F000</start>
-      <startup>0</startup>
-      <type>ROM</type>
-      <uninit>0</uninit>
-    </memory>
-    <memory>
-      <access>
-        <p>0</p>
-        <r>1</r>
-        <w>0</w>
-        <x>1</x>
-      </access>
-      <dma>0</dma>
-      <external>0</external>
       <info>Bootloader Image</info>
       <name>IMAGE_BL2</name>
       <physical>0x08000000</physical>
@@ -83,36 +28,8 @@
         <c>0</c>
       </security>
       <shared>0</shared>
-      <size>0x00008000</size>
+      <size>0x0000C000</size>
       <start>0x0C000000</start>
-      <startup>0</startup>
-      <type>ROM</type>
-      <uninit>0</uninit>
-    </memory>
-    <memory>
-      <access>
-        <p>0</p>
-        <r>1</r>
-        <w>0</w>
-        <x>1</x>
-      </access>
-      <dma>0</dma>
-      <external>0</external>
-      <info>Scratch area for Bootloader - not supported!</info>
-      <name>SCRATCH</name>
-      <physical>0x08008000</physical>
-      <privilege>
-        <p>0</p>
-        <u>0</u>
-      </privilege>
-      <security>
-        <s>1</s>
-        <n>0</n>
-        <c>0</c>
-      </security>
-      <shared>0</shared>
-      <size>0x00008000</size>
-      <start>0x0C008000</start>
       <startup>0</startup>
       <type>ROM</type>
       <uninit>0</uninit>
@@ -154,8 +71,9 @@
       </access>
       <dma>0</dma>
       <external>0</external>
-      <name>Flash_S</name>
-      <physical>0x08000000</physical>
+      <info>Secure Image Secondary slot</info>
+      <name>IMAGE_2_S</name>
+      <physical>0x08050000</physical>
       <privilege>
         <p>0</p>
         <u>0</u>
@@ -166,8 +84,8 @@
         <c>1</c>
       </security>
       <shared>0</shared>
-      <size>0x00080000</size>
-      <start>0x0C000000</start>
+      <size>0x00024000</size>
+      <start>0x0C050000</start>
       <startup>0</startup>
       <type>ROM</type>
       <uninit>0</uninit>
@@ -209,9 +127,8 @@
       </access>
       <dma>0</dma>
       <external>0</external>
-      <info>Secure Image Secondary slot</info>
-      <name>IMAGE_2_S</name>
-      <physical>0x08050000</physical>
+      <name>Flash_S</name>
+      <physical>0x08000000</physical>
       <privilege>
         <p>0</p>
         <u>0</u>
@@ -222,8 +139,8 @@
         <c>1</c>
       </security>
       <shared>0</shared>
-      <size>0x00020000</size>
-      <start>0x0C050000</start>
+      <size>0x00080000</size>
+      <start>0x0C000000</start>
       <startup>0</startup>
       <type>ROM</type>
       <uninit>0</uninit>
@@ -264,9 +181,64 @@
       </access>
       <dma>0</dma>
       <external>0</external>
+      <info>Scratch area for Bootloader - not supported!</info>
+      <name>SCRATCH</name>
+      <physical>0x08074000</physical>
+      <privilege>
+        <p>0</p>
+        <u>0</u>
+      </privilege>
+      <security>
+        <s>1</s>
+        <n>0</n>
+        <c>0</c>
+      </security>
+      <shared>0</shared>
+      <size>0x00004000</size>
+      <start>0x0C074000</start>
+      <startup>0</startup>
+      <type>ROM</type>
+      <uninit>0</uninit>
+    </memory>
+    <memory>
+      <access>
+        <p>0</p>
+        <r>1</r>
+        <w>0</w>
+        <x>1</x>
+      </access>
+      <dma>0</dma>
+      <external>0</external>
+      <name>Flash_NS</name>
+      <physical>0x08000000</physical>
+      <privilege>
+        <p>0</p>
+        <u>0</u>
+      </privilege>
+      <security>
+        <s>0</s>
+        <n>1</n>
+        <c>0</c>
+      </security>
+      <shared>0</shared>
+      <size>0x00080000</size>
+      <start>0x08000000</start>
+      <startup>0</startup>
+      <type>ROM</type>
+      <uninit>0</uninit>
+    </memory>
+    <memory>
+      <access>
+        <p>0</p>
+        <r>1</r>
+        <w>0</w>
+        <x>1</x>
+      </access>
+      <dma>0</dma>
+      <external>0</external>
       <info>Secure Image Primary slot</info>
       <name>IMAGE_1_S</name>
-      <physical>0x08010000</physical>
+      <physical>0x0800C000</physical>
       <privilege>
         <p>0</p>
         <u>0</u>
@@ -277,8 +249,36 @@
         <c>1</c>
       </security>
       <shared>1</shared>
-      <size>0x00020000</size>
-      <start>0x0C010000</start>
+      <size>0x00024000</size>
+      <start>0x0C00C000</start>
+      <startup>0</startup>
+      <type>ROM</type>
+      <uninit>0</uninit>
+    </memory>
+    <memory>
+      <access>
+        <p>0</p>
+        <r>1</r>
+        <w>0</w>
+        <x>1</x>
+      </access>
+      <dma>0</dma>
+      <external>0</external>
+      <info>Non-volatile Counters</info>
+      <name>NV_COUNTERS</name>
+      <physical>0x0807E000</physical>
+      <privilege>
+        <p>0</p>
+        <u>0</u>
+      </privilege>
+      <security>
+        <s>1</s>
+        <n>0</n>
+        <c>0</c>
+      </security>
+      <shared>1</shared>
+      <size>0x00001000</size>
+      <start>0x0C07E000</start>
       <startup>0</startup>
       <type>ROM</type>
       <uninit>0</uninit>
@@ -2389,7 +2389,7 @@
         <c>0</c>
       </security>
       <shared>0</shared>
-      <size>0x00008000</size>
+      <size>0x0000C000</size>
       <start>0x0C000000</start>
       <startup>1</startup>
       <type>ROM</type>

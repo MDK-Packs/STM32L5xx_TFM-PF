@@ -14,13 +14,14 @@
     </zone>
   </zones>
   <partition>
-    <memory access="rw" info="Secure Application DATA section" name="DATA_S" physical="0x20000000" privilege="" security="s" shared="1" size="0x00020000" start="0x30000000" type="RAM"/>
     <memory fixed="1" info="MSP STACK section" name="STACK_MSP_S" offset="0x00000000" parent="DATA_S" size="0x00000800"/>
     <memory fixed="1" info="PSP STACK section" name="STACK_PSP_S" offset="0x00000800" parent="DATA_S" size="0x00000800"/>
     <memory fixed="1" info="HEAP section" name="HEAP_S" offset="0x00001000" parent="DATA_S" size="0x00001000"/>
     <memory info="DATA section" name="DATA_S_" offset="0x00002000" parent="DATA_S" size="0x0001E000"/>
-    <memory access="rx" info="Secure Application CODE section" name="CODE_S" physical="0x08010400" privilege="" security="s" shared="1" size="0x0001F400" start="0x0C010400" startup="1" type="ROM"/>
   </partition>
+  <creator azone="../tfm.azone" info="" rzone="../tfm.rzone" security="s" tool="CMSIS Zone PlugIn for Eclipse 1.0.0"/>
+  <creator azone="../tfm.azone" info="" rzone="../tfm.rzone" security="s" tool="CMSIS Zone PlugIn for Eclipse 1.0.0"/>
+  <creator azone="../tfm.azone" info="" rzone="../tfm.rzone" security="s" tool="CMSIS Zone PlugIn for Eclipse 1.0.0"/>
   <creator azone="../tfm.azone" info="" rzone="../tfm.rzone" security="s" tool="CMSIS Zone PlugIn for Eclipse 1.0.0"/>
   <creator azone="../tfm.azone" info="" rzone="../tfm.rzone" security="s" tool="CMSIS Zone PlugIn for Eclipse 1.0.0"/>
   <creator azone="../tfm.azone" info="" rzone="../tfm.rzone" security="s" tool="CMSIS Zone PlugIn for Eclipse 1.0.0"/>

@@ -58,6 +58,11 @@
  *
  * Comment to disable the use of assembly code.
  */
+
+/* Due to an outstanding bug with mbedtls and arm compiler 6, this feature is
+ * disabled temporarily on cortex-m0 and m0-plus.
+ * https://github.com/ARMmbed/mbedtls/issues/1077
+ */
 #define MBEDTLS_HAVE_ASM
 
 /**
@@ -352,7 +357,7 @@
 //#define MBEDTLS_ARIA_ALT
 //#define MBEDTLS_BLOWFISH_ALT
 //#define MBEDTLS_CAMELLIA_ALT
-//#define MBEDTLS_CCM_ALT
+//#define MBEDTLS_CCM_ALT  /* not yet enabled */
 //#define MBEDTLS_CHACHA20_ALT
 //#define MBEDTLS_CHACHAPOLY_ALT
 //#define MBEDTLS_CMAC_ALT
@@ -366,7 +371,7 @@
 #define MBEDTLS_MD5_ALT
 //#define MBEDTLS_POLY1305_ALT
 //#define MBEDTLS_RIPEMD160_ALT
-//#define MBEDTLS_RSA_ALT
+#define MBEDTLS_RSA_ALT
 //#define MBEDTLS_SHA1_ALT
 #define MBEDTLS_SHA256_ALT
 //#define MBEDTLS_SHA512_ALT

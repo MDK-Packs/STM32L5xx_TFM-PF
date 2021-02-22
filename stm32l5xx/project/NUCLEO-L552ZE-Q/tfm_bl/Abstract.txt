@@ -29,9 +29,7 @@ next and then transfers execution to the non-secure application.
 Secure side image (tfm_s) and non-secure side image (tfm_ns) are signed and
 encapsulated with header and trailer during post build process.
 The following external tools are required:
- - fromelf (part of ARM Compiler)
- - python
- - srec_cat (SRecord)
+ - python + imgtool (>=1.7.0)
 The above executables need to be in the command line path.
 
 Running the example:

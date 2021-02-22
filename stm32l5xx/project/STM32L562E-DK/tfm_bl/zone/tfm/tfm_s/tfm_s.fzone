@@ -11,6 +11,62 @@
         <p>0</p>
         <r>1</r>
         <w>0</w>
+        <x>0</x>
+      </access>
+      <dma>0</dma>
+      <external>0</external>
+      <info>Secure Image Trailer for Bootloader</info>
+      <name>TRAILER_S</name>
+      <physical>0x0802FC00</physical>
+      <privilege>
+        <p>0</p>
+        <u>0</u>
+      </privilege>
+      <security>
+        <s>1</s>
+        <n>0</n>
+        <c>0</c>
+      </security>
+      <shared>1</shared>
+      <size>0x00000400</size>
+      <start>0x0C02FC00</start>
+      <startup>0</startup>
+      <type>ROM</type>
+      <uninit>0</uninit>
+    </memory>
+    <memory>
+      <access>
+        <p>0</p>
+        <r>1</r>
+        <w>0</w>
+        <x>1</x>
+      </access>
+      <dma>0</dma>
+      <external>0</external>
+      <info>Secure Application CODE section</info>
+      <name>CODE_S</name>
+      <physical>0x0800C400</physical>
+      <privilege>
+        <p>0</p>
+        <u>0</u>
+      </privilege>
+      <security>
+        <s>1</s>
+        <n>0</n>
+        <c>0</c>
+      </security>
+      <shared>1</shared>
+      <size>0x00023400</size>
+      <start>0x0C00C400</start>
+      <startup>1</startup>
+      <type>ROM</type>
+      <uninit>0</uninit>
+    </memory>
+    <memory>
+      <access>
+        <p>0</p>
+        <r>1</r>
+        <w>0</w>
         <x>1</x>
       </access>
       <dma>0</dma>
@@ -43,37 +99,9 @@
       </access>
       <dma>0</dma>
       <external>0</external>
-      <info>Secure Image Trailer for Bootloader</info>
-      <name>TRAILER_S</name>
-      <physical>0x0802FC00</physical>
-      <privilege>
-        <p>0</p>
-        <u>0</u>
-      </privilege>
-      <security>
-        <s>1</s>
-        <n>0</n>
-        <c>0</c>
-      </security>
-      <shared>1</shared>
-      <size>0x00000400</size>
-      <start>0x0C02FC00</start>
-      <startup>0</startup>
-      <type>ROM</type>
-      <uninit>0</uninit>
-    </memory>
-    <memory>
-      <access>
-        <p>0</p>
-        <r>1</r>
-        <w>0</w>
-        <x>0</x>
-      </access>
-      <dma>0</dma>
-      <external>0</external>
       <info>Secure Image Header for Bootloader</info>
       <name>HEADER_S</name>
-      <physical>0x08010000</physical>
+      <physical>0x0800C000</physical>
       <privilege>
         <p>0</p>
         <u>0</u>
@@ -85,7 +113,7 @@
       </security>
       <shared>1</shared>
       <size>0x00000400</size>
-      <start>0x0C010000</start>
+      <start>0x0C00C000</start>
       <startup>0</startup>
       <type>ROM</type>
       <uninit>0</uninit>
@@ -116,34 +144,6 @@
       <start>0x30000000</start>
       <startup>0</startup>
       <type>RAM</type>
-      <uninit>0</uninit>
-    </memory>
-    <memory>
-      <access>
-        <p>0</p>
-        <r>1</r>
-        <w>0</w>
-        <x>1</x>
-      </access>
-      <dma>0</dma>
-      <external>0</external>
-      <info>Secure Application CODE section</info>
-      <name>CODE_S</name>
-      <physical>0x08010400</physical>
-      <privilege>
-        <p>0</p>
-        <u>0</u>
-      </privilege>
-      <security>
-        <s>1</s>
-        <n>0</n>
-        <c>0</c>
-      </security>
-      <shared>1</shared>
-      <size>0x0001F400</size>
-      <start>0x0C010400</start>
-      <startup>1</startup>
-      <type>ROM</type>
       <uninit>0</uninit>
     </memory>
     <mpc_setup>
@@ -2247,7 +2247,7 @@
       <external>0</external>
       <info>Secure Application CODE section</info>
       <name>CODE_S</name>
-      <physical>0x08010400</physical>
+      <physical>0x0800C400</physical>
       <privilege>
         <p>0</p>
         <u>0</u>
@@ -2258,8 +2258,8 @@
         <c>0</c>
       </security>
       <shared>1</shared>
-      <size>0x0001F400</size>
-      <start>0x0C010400</start>
+      <size>0x00023400</size>
+      <start>0x0C00C400</start>
       <startup>1</startup>
       <type>ROM</type>
       <uninit>0</uninit>

@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2019, Arm Limited. All rights reserved.
+ * Copyright (c) 2019-2020, Arm Limited. All rights reserved.
  *
  * SPDX-License-Identifier: BSD-3-Clause
  *
@@ -10,11 +10,7 @@
 
 //-------- <<< Use Configuration Wizard in Context Menu >>> --------------------
 
-// <h>Test Framework Configuration
-
-//   <o>TF-M Isolation Level
-//     <1=> 1  <2=> 2  <3=> 3
-#define TFM_LVL 1
+// <h>Test Framework
 
 //   <c>Non-Secure Client Identification
 //#define TFM_NS_CLIENT_IDENTIFICATION
@@ -26,14 +22,56 @@
 //   <o>STDIO USART Baudrate
 #define DEFAULT_UART_BAUDRATE   115200U
 
-//   <o>SST Maximum Asset Size
-#define SST_MAX_ASSET_SIZE      2048
+// </h>
 
-//   <o>ITS Maximum Asset Size
+// <h>Protected Storage (PS)
+
+//   <o>Maximum Asset Size
+#define PS_MAX_ASSET_SIZE       2048
+
+// </h>
+
+// <h>Internal Trusted Storage (ITS)
+
+//   <o>Maximum Asset Size
 #define ITS_MAX_ASSET_SIZE      512
 
 // </h>
 
+// <h>Crypto
+
+//   <c>Test CBC Cryptography Mode
+#define TFM_CRYPTO_TEST_ALG_CBC
+//   </c>
+
+//   <c>Test CCM Cryptography Mode
+#define TFM_CRYPTO_TEST_ALG_CCM
+//   </c>
+
+//   <c>Test CFB Cryptography Mode
+#define TFM_CRYPTO_TEST_ALG_CFB
+//   </c>
+
+//   <c>Test CTR Cryptography Mode
+#define TFM_CRYPTO_TEST_ALG_CTR
+//   </c>
+
+//   <c>Test GCM Cryptography Mode
+#define TFM_CRYPTO_TEST_ALG_GCM
+//   </c>
+
+//   <c>Test SHA-512 Cryptography Algorithm
+#define TFM_CRYPTO_TEST_ALG_SHA_512
+//   </c>
+
+//   <c>Test HKDF (HMAC Key Derivation Function)
+#define TFM_CRYPTO_TEST_HKDF
+//   </c>
+
+// </h>
+
 //------------- <<< end of configuration section >>> ---------------------------
+
+#define TFM_ENABLE_PERIPH_ACCESS_TEST
 
 #endif /* TFM_TEST_CONFIG_H */

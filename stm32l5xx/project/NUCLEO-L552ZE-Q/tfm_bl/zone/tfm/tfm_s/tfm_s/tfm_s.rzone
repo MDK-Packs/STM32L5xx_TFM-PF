@@ -7,12 +7,12 @@
   </device>
   <resources>
     <memories>
-      <memory access="rx" info="Secure Application CODE section" name="CODE_S" physical="0x08010400" security="s" shared="1" size="0x0001F400" start="0x0C010400" startup="1" type="ROM"/>
+      <memory access="rx" info="Secure Application CODE section" name="CODE_S" physical="0x0800C400" privilege="" security="s" shared="1" size="0x00023400" start="0x0C00C400" startup="1" type="ROM"/>
       <memory access="rx" info="Non-secure callable Veneers" name="VENEERS" physical="0x0802F800" security="c" shared="1" size="0x00000340" start="0x0C02F800" type="ROM"/>
-      <memory access="rw" info="MSP STACK section" name="STACK_MSP_S" physical="0x20000000" security="s" shared="1" size="0x00000800" start="0x30000000" type="RAM"/>
-      <memory access="rw" info="PSP STACK section" name="STACK_PSP_S" physical="0x20000800" security="s" shared="1" size="0x00000800" start="0x30000800" type="RAM"/>
-      <memory access="rw" info="HEAP section" name="HEAP_S" physical="0x20001000" security="s" shared="1" size="0x00001000" start="0x30001000" type="RAM"/>
-      <memory access="rw" info="DATA section" name="DATA_S_" physical="0x20002000" security="s" shared="1" size="0x0001E000" start="0x30002000" type="RAM"/>
+      <memory access="rw" info="MSP STACK section" name="STACK_MSP_S" physical="0x20000000" privilege="" security="s" shared="1" size="0x00000800" start="0x30000000" type="RAM"/>
+      <memory access="rw" info="PSP STACK section" name="STACK_PSP_S" physical="0x20000800" privilege="" security="s" shared="1" size="0x00000800" start="0x30000800" type="RAM"/>
+      <memory access="rw" info="HEAP section" name="HEAP_S" physical="0x20001000" privilege="" security="s" shared="1" size="0x00001000" start="0x30001000" type="RAM"/>
+      <memory access="rw" info="DATA section" name="DATA_S_" physical="0x20002000" privilege="" security="s" shared="1" size="0x0001E000" start="0x30002000" type="RAM"/>
       <mpc blk_size="0x100" info="SRAM1" name="GTZC_MPCBB1_S" size="0x00030000" start="0x20000000" type="s"/>
       <mpc blk_size="0x100" info="SRAM2" name="GTZC_MPCBB2_S" size="0x00010000" start="0x20030000" type="s"/>
     </memories>

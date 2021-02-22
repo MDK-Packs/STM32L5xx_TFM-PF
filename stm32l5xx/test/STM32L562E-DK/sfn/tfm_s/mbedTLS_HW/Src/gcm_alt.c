@@ -153,15 +153,18 @@ int mbedtls_gcm_starts( mbedtls_gcm_context *ctx,
         return( MBEDTLS_ERR_PLATFORM_FEATURE_UNSUPPORTED );
     }
 
-    /* HW implementation restrict support to a buffer multiple of 32 bits */
-    if ((add_len % 4U) != 0U)
+    /* allow multi-context of CRYP use: restore context */
+    ctx->hcryp_gcm.Instance->CR = ctx->ctx_save_cr;
+
+    if ( HAL_CRYP_Init( &ctx->hcryp_gcm ) != HAL_OK )
     {
-        return( MBEDTLS_ERR_PLATFORM_FEATURE_UNSUPPORTED );
+        return( MBEDTLS_ERR_PLATFORM_HW_ACCEL_FAILED );
     }
 
     ctx->mode = mode;
     ctx->len = 0;
 
+    /* Set IV with invert endianness */
     SWAP_B8_TO_B32(iv_32B[0],iv,0);
     SWAP_B8_TO_B32(iv_32B[1],iv,4);
     SWAP_B8_TO_B32(iv_32B[2],iv,8);
@@ -175,8 +178,8 @@ int mbedtls_gcm_starts( mbedtls_gcm_context *ctx,
     if (add_len != 0)
     {
       ctx->hcryp_gcm.Init.Header = (uint32_t *)add;
-      /* header buffer in word */
-      ctx->hcryp_gcm.Init.HeaderSize = (uint32_t)(add_len/4);
+      /* header buffer in byte length */
+      ctx->hcryp_gcm.Init.HeaderSize = (uint32_t)add_len;
     }
     else
     {
@@ -184,11 +187,20 @@ int mbedtls_gcm_starts( mbedtls_gcm_context *ctx,
       ctx->hcryp_gcm.Init.HeaderSize = 0;
     }
 
+    /* Additional Authentication Data in bytes unit */
+    ctx->hcryp_gcm.Init.HeaderWidthUnit = CRYP_HEADERWIDTHUNIT_BYTE;
+
     /* Do not Allow IV reconfiguration at every gcm update */
     ctx->hcryp_gcm.Init.KeyIVConfigSkip = CRYP_KEYIVCONFIG_ONCE;
 
     /* reconfigure the CRYP */
-    HAL_CRYP_SetConfig(&ctx->hcryp_gcm, &ctx->hcryp_gcm.Init);
+    if ( HAL_CRYP_SetConfig( &ctx->hcryp_gcm, &ctx->hcryp_gcm.Init ) != HAL_OK )
+    {
+        return( MBEDTLS_ERR_PLATFORM_HW_ACCEL_FAILED );
+    }
+
+    /* allow multi-context of CRYP : save context */
+    ctx->ctx_save_cr = ctx->hcryp_gcm.Instance->CR;
 
     return( 0 );
 }
@@ -198,9 +210,6 @@ int mbedtls_gcm_update( mbedtls_gcm_context *ctx,
                 const unsigned char *input,
                 unsigned char *output )
 {
-    uint32_t input_data, /*output_data*/output_data[4];
-    size_t rest_length = 0;
-
     GCM_VALIDATE_RET( ctx != NULL );
     GCM_VALIDATE_RET( length == 0 || input != NULL );
     GCM_VALIDATE_RET( length == 0 || output != NULL );
@@ -216,10 +225,10 @@ int mbedtls_gcm_update( mbedtls_gcm_context *ctx,
         return( MBEDTLS_ERR_GCM_BAD_INPUT );
     }
 
-    ctx->len += length;
+    /* allow multi-context of CRYP use: restore context */
+    ctx->hcryp_gcm.Instance->CR = ctx->ctx_save_cr;
 
-    /* compute remaining data (data buffer in word) */
-    if ((length % 4U) != 0U) rest_length = length % 4U;
+    ctx->len += length;
 
     if( ctx->mode == MBEDTLS_GCM_DECRYPT )
     {
@@ -229,27 +238,7 @@ int mbedtls_gcm_update( mbedtls_gcm_context *ctx,
                               (uint32_t *)output,
                               ST_GCM_TIMEOUT) != HAL_OK)
          {
-            return MBEDTLS_ERR_PLATFORM_HW_ACCEL_FAILED;
-         }
-
-         /* manage last bytes */
-         if (rest_length !=0 )
-         {
-             //memcpy((void *)&input_data, (void *)(input + (length/4)), rest_length);
-             memcpy(&input_data, input + (length/4), rest_length);
-             if (HAL_CRYP_Decrypt(&ctx->hcryp_gcm,
-                                  &input_data,
-                                  rest_length,
-                                  &output_data[0],
-                                  ST_GCM_TIMEOUT) != HAL_OK)
-             {
-                 return MBEDTLS_ERR_PLATFORM_HW_ACCEL_FAILED;
-             }
-             else
-             {
-                 //memcpy((void *)(output + (length/4)), (void *)&output_data, rest_length);
-                 memcpy(output + (length/4), &output_data, rest_length);
-             }
+            return( MBEDTLS_ERR_PLATFORM_HW_ACCEL_FAILED );
          }
     }
     else
@@ -260,29 +249,12 @@ int mbedtls_gcm_update( mbedtls_gcm_context *ctx,
                               (uint32_t *)output,
                               ST_GCM_TIMEOUT) != HAL_OK)
          {
-            return (MBEDTLS_ERR_PLATFORM_HW_ACCEL_FAILED);
-         }
-         
-         /* manage last bytes */
-         if (rest_length !=0 ) 
-         {
-             //memcpy((void *)&input_data, (void *)(input + (length/4)), rest_length);
-             memcpy(&input_data, input + (length/4), rest_length);
-             if (HAL_CRYP_Encrypt(&ctx->hcryp_gcm,
-                                  &input_data,
-                                  rest_length,
-                                  &output_data[0],
-                                  ST_GCM_TIMEOUT) != HAL_OK)
-             {
-                 return (MBEDTLS_ERR_PLATFORM_HW_ACCEL_FAILED);
-             }
-             else
-             {
-                 //memcpy((void *)(output + (length/4)), (void *)&output_data, rest_length);
-                 memcpy(output + (length/4), &output_data, rest_length);
-             }
+            return( MBEDTLS_ERR_PLATFORM_HW_ACCEL_FAILED );
          }
     }
+
+    /* allow multi-context of CRYP : save context */
+    ctx->ctx_save_cr = ctx->hcryp_gcm.Instance->CR;
 
     return( 0 );
 }
@@ -291,6 +263,8 @@ int mbedtls_gcm_finish( mbedtls_gcm_context *ctx,
                 unsigned char *tag,
                 size_t tag_len )
 {
+    __ALIGN_BEGIN uint8_t mac[16]      __ALIGN_END; /* temporary mac         */
+
     GCM_VALIDATE_RET( ctx != NULL );
     GCM_VALIDATE_RET( tag != NULL );
 
@@ -301,13 +275,24 @@ int mbedtls_gcm_finish( mbedtls_gcm_context *ctx,
     if( tag_len != 16 )
         return( MBEDTLS_ERR_PLATFORM_FEATURE_UNSUPPORTED );
 
+    /* allow multi-context of CRYP use: restore context */
+    ctx->hcryp_gcm.Instance->CR = ctx->ctx_save_cr;
+
+    /* Tag has a variable length */
+    memset(mac, 0, sizeof(mac));
+
     /* Generate the authentication TAG */
     if (HAL_CRYPEx_AESGCM_GenerateAuthTAG(&ctx->hcryp_gcm,
-                                          (uint32_t *)tag,
+                                          (uint32_t *)mac,
                                           ST_GCM_TIMEOUT)!= HAL_OK)
     {
         return (MBEDTLS_ERR_PLATFORM_HW_ACCEL_FAILED);
     }
+
+    memcpy( tag, mac, tag_len );
+
+    /* allow multi-context of CRYP : save context */
+    ctx->ctx_save_cr = ctx->hcryp_gcm.Instance->CR;
 
     return( 0 );
 }

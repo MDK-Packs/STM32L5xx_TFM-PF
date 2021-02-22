@@ -1,0 +1,79 @@
+How to create the TF-M Bootloader
+---------------------------------
+
+uVision:
+ - create new project
+ - select device STMicroelectronics STM32L552ZETxQ
+ - RTE: select Device:STM32Cube Framework:STM32CubeMX and launch STM32CubeMX
+
+STM32CubeMX:
+ - TrustZone not activated
+ - Pinout & Configuration
+ -- System Core
+ --- ICACHE
+ ---- Mode: 2-ways set associative cache
+ -- Connectivity
+ --- LPUART1
+ ---- Mode: Asynchronous
+ ---- Parameter settings
+ ----- Baud Rate: 115200
+ ---- GPIO Settings
+ ----- PG8: LPUART1_RX, Maximum output speed: Very High
+ ----- PG7: LPUART1_TX, Maximum output speed: Very High
+ - Clock Configuration
+ -- System Clock Mux: PLLCLK
+ -- PLL N: x55
+ -- LPUART1 Clock Mux: HSI
+ - Project Manager
+ -- Code Generator: Add necessary library files as reference
+ - Generate Code
+ - Close
+ - go back to uVision
+
+uVision:
+ - Target Options - Target - Code Generation - Software Model: Secure Mode
+ - Target Options - C/C++ - Warnings: AC5-like Warnings
+ - RTE
+ -- select TFM:Boot
+ -- select TFM Platform:* required components
+ -- select Security:mbed TLS
+ -- select CMSIS Driver:Flash:Custom
+ -- select CMSIS Driver:USART:Custom
+ -- select CMSIS:CORE
+ -- resolve dependencies
+ - update mbedCrypto configuration: mcuboot-mbedtls-cfg.h
+ -- add: #include "bl2_config.h"
+ - add Flash Driver (taken from STM32Cube)
+ - add USART Driver (output redirected to ST UART HAL)
+ -- user code template (empty implementation)
+ -- add include headers:
+    #include "stm32l5xx_hal.h"
+    #include "main.h"
+ -- update Send function
+    int32_t ARM_USART_Send(const void *data, uint32_t num)
+    {
+      HAL_UART_Transmit(&hlpuart1, (uint8_t *)data, num, 1000U);
+      return ARM_DRIVER_OK;
+    }
+ -- rename exported driver to Driver_USART1 (add 1 index)
+ - update TFM:bl2_main.c options:
+ -- C/C++ Define: main=bl2_main
+ - update main.h:
+ -- add: extern UART_HandleTypeDef hlpuart1;
+ - update main.c:
+ -- add: extern int bl2_main(void);
+ -- add: bl2_main(); before endless loop in main
+ - update Device:startup_stm32l552xx.s (startup file)
+ -- Vector table:
+ --- change __initial_sp to |Image$$ARM_LIB_STACK$$ZI$$Limit| and add IMPORT (Stack_Size=0)
+ - update Device:system_stm32l5xx_s.c (system file)
+ -- comment call TZ_SAU_Setup() in function SystemInit
+ - setup linker:
+ -- scatter file: stm32l552xe_flash_s.sct
+ --- LR_IROM2 0x0C000000 0x0000C000
+ --- ER_IROM2 0x0C000000 0x0000C000
+ --- RW_IRAM2 0x30000400 0x0001D400 { .ANY (+RW +ZI) }
+ --- ARM_LIB_HEAP +0 EMPTY 0x1000 {}
+ --- ARM_LIB_STACK +0 EMPTY 0x1800 {}
+ --- remove: LR_IROM3
+ - select Debug adapter: ST-Link Debugger

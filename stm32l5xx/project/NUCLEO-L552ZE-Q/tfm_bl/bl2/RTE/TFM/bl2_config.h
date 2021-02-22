@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2019, Arm Limited. All rights reserved.
+ * Copyright (c) 2019-2020, Arm Limited. All rights reserved.
  *
  * SPDX-License-Identifier: BSD-3-Clause
  *
@@ -10,15 +10,19 @@
 
 //-------- <<< Use Configuration Wizard in Context Menu >>> --------------------
 
-// <h>MCUBoot Configuration
+// <h>MCUboot Configuration
 
 //   <o>Upgrade Strategy
-//     <1=> Overwrite Only  <2=> Swap  <3=> No Swap <4=> RAM Loading
+//     <1=> Overwrite Only  <2=> Swap  <3=> Direct XIP <4=> RAM Loading
 #define MCUBOOT_UPGRADE_STRATEGY    1
 
 //   <o>Signature Type
 //     <1=> RSA-3072 <2=> RSA-2048
 #define MCUBOOT_SIGNATURE_TYPE      1
+
+//   <c>Encrypt Images
+#define MCUBOOT_ENC_IMAGES
+//   </c>
 
 //   <o>Number of Images
 //     <1=> 1 <2=> 2
@@ -41,17 +45,13 @@
 #if    (MCUBOOT_UPGRADE_STRATEGY == 1)
 #define MCUBOOT_OVERWRITE_ONLY
 #elif  (MCUBOOT_UPGRADE_STRATEGY == 2)
+#define MCUBOOT_SWAP_USING_MOVE
 #elif  (MCUBOOT_UPGRADE_STRATEGY == 3)
-#define MCUBOOT_NO_SWAP
+#define MCUBOOT_DIRECT_XIP
 #elif  (MCUBOOT_UPGRADE_STRATEGY == 4)
 #define MCUBOOT_RAM_LOADING
 #else
-#error "MCUBoot Configuration: Invalid Upgrade Strategy!"
-#endif
-
-#if    (MCUBOOT_IMAGE_NUMBER != 1) && \
-      ((MCUBOOT_UPGRADE_STRATEGY == 3) || (MCUBOOT_UPGRADE_STRATEGY == 4))
-#error "MCUBoot Configuration: No Swap and RAM Loading Upgrade Strategy supports only single image!"
+#error "MCUboot Configuration: Invalid Upgrade Strategy!"
 #endif
 
 #if    (MCUBOOT_SIGNATURE_TYPE == 1)
@@ -61,14 +61,27 @@
 #define MCUBOOT_SIGN_RSA
 #define MCUBOOT_SIGN_RSA_LEN 2048
 #else
-#error "MCUBoot Configuration: Invalid Signature Type!"
+#error "MCUboot Configuration: Invalid Signature Type!"
+#endif
+
+#ifdef  MCUBOOT_ENC_IMAGES
+#define MCUBOOT_ENCRYPT_RSA
 #endif
 
 #if   ((MCUBOOT_IMAGE_NUMBER != 1) && (MCUBOOT_IMAGE_NUMBER != 2))
-#error "MCUBoot Configuration: Invalid number of Images!"
+#error "MCUboot Configuration: Invalid number of Images!"
 #endif
 
-#define MCUBOOT_VALIDATE_PRIMARY_SLOT
-#define MCUBOOT_USE_FLASH_AREA_GET_SECTORS
+#if   ((MCUBOOT_UPGRADE_STRATEGY == 3) || (MCUBOOT_UPGRADE_STRATEGY == 4))
+#if    (MCUBOOT_IMAGE_NUMBER != 1)
+#error "MCUboot Configuration: Direct XIP and RAM Loading Upgrade Strategy supports only single image!"
+#endif
+#ifdef MCUBOOT_ENC_IMAGES
+#error "MCUboot Configuration: Image encryption is not supported for Direct XIP and RAM Loading Upgrade Strategy!"
+#endif
+#endif
+
+#define MCUBOOT_HW_ROLLBACK_PROT
+#define MCUBOOT_MEASURED_BOOT
 
 #endif /* BL2_CONFIG_H */
